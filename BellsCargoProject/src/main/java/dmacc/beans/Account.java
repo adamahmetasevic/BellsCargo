@@ -1,9 +1,17 @@
-package dmacc.model;
+package dmacc.beans;
 
-import javax.persistence.*;
+//import javax.persistence.*;
 
 import java.util.Date;
 import java.util.List;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 
 @Entity
 public class Account {
@@ -15,7 +23,7 @@ public class Account {
     private String accountName;
     private double accountBalance;
     private Date accountDate;
-    private int userId;
+//    private int userId;
     
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -33,7 +41,7 @@ public class Account {
         this.accountName = accountName;
         this.accountBalance = accountBalance;
         this.accountDate = accountDate;
-        this.userId = userId;
+//        this.userId = userId;
     }
 
     // Getters and Setters
@@ -77,13 +85,13 @@ public class Account {
         this.accountDate = accountDate;
     }
 
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
+//    public int getUserId() {
+//        return userId;
+//    }
+//
+//    public void setUserId(int userId) {
+//        this.userId = userId;
+//    }
 
     public List<Transaction> getTransactions() {
         return transactions;
