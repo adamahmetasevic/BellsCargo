@@ -1,12 +1,16 @@
 package dmacc.controller;
 
-import java.util.ArrayList;
-import java.util.List;
+import dmacc.beans.Account;
+import dmacc.beans.Transaction;
+import dmacc.repositories.AccountsRepository;
+import dmacc.repositories.TransactionRepository;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 /**
@@ -17,6 +21,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Controller
 public class WebController {
 	//imports and repositories
+	@Autowired 
+	private AccountsRepository accountRepo;
+	@Autowired
+	private TransactionRepository transactionRepo;
 	
 	@GetMapping({"/", "/home"})
 	public String Index(Model model) {
@@ -25,23 +33,30 @@ public class WebController {
 	
 	@GetMapping("/viewAccounts")
 	public String Accounts(Model model) {
-		//add list of accounts into the model
-			//var accounts =
-			//model.addAttribute("accounts", accounts);
+//		if(accountRepo.findAll().isEmpty()) {
+//			return AccountForm(model);
+//		}
+		
+		model.addAttribute("todos", accountRepo.findAll());
+		
 		return "account";
 	}
 	
 	@GetMapping("/addAcc")
 	public String AccountForm(Model model) {
-		//model.addAttribute("account", NEW ACCOUNT HERE);
+		Account acc = new Account();
+		model.addAttribute("newAcc", acc);
+		
 		return "formAccount";
 	}
 	
 	@GetMapping("/viewTransactions")
 	public String Transactions(Model model) {
-		//add list of deposits/withdrawals into a list for model
-			//var transactions =
-			//model.addAttribute("transactions", transactions);
+//		if(accountRepo.findAll().isEmpty()) {
+//			return Index(model);
+//		}
+		
+		model.addAttribute("transactons", transactionRepo.findAll());
 		return "transaction";
 	}
 	
@@ -56,9 +71,26 @@ public class WebController {
 		//Add to modal all possible account that user can affect
 			//model.addAttribute("accounts", 
 			//model.addAttribute("transaction", transaction);
-		model.addAttribute("title", "Withdrawal");
+		Transaction trans = new Transaction();
+		model.addAttribute("newWithdraw", trans);
 		return "formTransaction";
 	}
+	
+	@PostMapping("/withdraw")
+	public String WithdrawForm(@ModelAttribute Transaction trans, Model model) {
+		//add new Transaction object to the model
+			//var transaction = new Transaction();
+		//make sure to make transactionType set to whatever value withdraw will be and also set accountId
+			//transaction.transactionType =
+			//transaction.accountId =
+			//transaction.transactionDate =
+		//Add to modal all possible account that user can affect
+			//model.addAttribute("accounts", 
+			//model.addAttribute("transaction", transaction);
+		transactionRepo.save(trans);
+		return Accounts(model);
+	}
+	
 	@GetMapping("/deposit")
 	public String DepositForm(Model model) {
 		//same as WithdrawForm()
@@ -67,19 +99,18 @@ public class WebController {
 	}
 	
 	@PostMapping("/addTransaction")
-	public String AddTransaction(@Valid Transaction tran, Errors errors, Model model) {
+	public String AddTransaction(Transaction tran, Errors errors, Model model) {
 		if(null != errors && errors.getErrorCount() > 0) return "formTransaction";
 		
-		//save to repository
+		transactionRepo.save(tran);
 		
 		return Index(model);
 	}
 	@PostMapping("/addAccount")
-	public String AddAccount(@Valid Account acc, Errors errors, Model model) {
-if(null != errors && errors.getErrorCount() > 0) return "formTransaction";
-		
-		//save to repository
-		
+	public String AddAccount(Account acc, Errors errors, Model model) {
+ 		if(null != errors && errors.getErrorCount() > 0) return "formTransaction";
+
+		accountRepo.save(acc);
 		return Index(model);
 	}
 	
@@ -91,5 +122,4 @@ if(null != errors && errors.getErrorCount() > 0) return "formTransaction";
 	 @GetMapping("/register")
 	 @PostMapping("/register")
 	*/
-	 */
 }

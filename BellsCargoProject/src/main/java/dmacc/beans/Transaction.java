@@ -1,6 +1,11 @@
-package dmacc.model;
+package dmacc.beans;
  
-import javax.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
 import java.util.Date;
 
@@ -12,7 +17,7 @@ public class Transaction {
     private String transactionType;
     private double transactionAmount;
     private Date transactionDate;
-    private int accountId;
+//    private int accountId;
     
     
     @ManyToOne
@@ -26,7 +31,7 @@ public class Transaction {
         this.transactionType = transactionType;
         this.transactionAmount = transactionAmount;
         this.transactionDate = transactionDate;
-        this.accountId = accountId;
+//        this.accountId = accountId;
     }
 
     // Getters and Setters
@@ -62,11 +67,11 @@ public class Transaction {
         this.transactionDate = transactionDate;
     }
 
-    public int getAccountId() {
-        return accountId;
-    }
-
-    public void setAccountId(int accountId) {
-        this.accountId = accountId;
-    }
+//    public int getAccountId() {
+//        return accountId;
+//    }
+//
+//    public void setAccountId(int accountId) {
+//        this.accountId = accountId;
+//    }
 }
