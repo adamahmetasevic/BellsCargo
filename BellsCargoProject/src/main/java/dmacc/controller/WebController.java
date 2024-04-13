@@ -5,6 +5,9 @@ import dmacc.beans.Transaction;
 import dmacc.repositories.AccountsRepository;
 import dmacc.repositories.TransactionRepository;
 
+import java.time.LocalDateTime;
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -45,7 +48,7 @@ public class WebController {
 	@GetMapping("/addAcc")
 	public String AccountForm(Model model) {
 		Account acc = new Account();
-		model.addAttribute("newAcc", acc);
+		model.addAttribute("account", acc);
 		
 		return "formAccount";
 	}
@@ -62,56 +65,40 @@ public class WebController {
 	
 	@GetMapping("/withdraw")
 	public String WithdrawForm(Model model) {
-		//add new Transaction object to the model
-			//var transaction = new Transaction();
-		//make sure to make transactionType set to whatever value withdraw will be and also set accountId
-			//transaction.transactionType =
-			//transaction.accountId =
-			//transaction.transactionDate =
-		//Add to modal all possible account that user can affect
-			//model.addAttribute("accounts", 
-			//model.addAttribute("transaction", transaction);
 		Transaction trans = new Transaction();
-		model.addAttribute("newWithdraw", trans);
+		trans.setTransactionType("withdraw");
+		model.addAttribute("title", "Deposit");
+		model.addAttribute("transaction", trans);
+		//model.addAttribute("accounts",
 		return "formTransaction";
-	}
-	
-	@PostMapping("/withdraw")
-	public String WithdrawForm(@ModelAttribute Transaction trans, Model model) {
-		//add new Transaction object to the model
-			//var transaction = new Transaction();
-		//make sure to make transactionType set to whatever value withdraw will be and also set accountId
-			//transaction.transactionType =
-			//transaction.accountId =
-			//transaction.transactionDate =
-		//Add to modal all possible account that user can affect
-			//model.addAttribute("accounts", 
-			//model.addAttribute("transaction", transaction);
-		transactionRepo.save(trans);
-		return Accounts(model);
 	}
 	
 	@GetMapping("/deposit")
 	public String DepositForm(Model model) {
 		//same as WithdrawForm()
+		Transaction trans = new Transaction();
+		trans.setTransactionType("deposit");
 		model.addAttribute("title", "Deposit");
+		model.addAttribute("transaction", trans);
 		return "formTransaction";
 	}
 	
 	@PostMapping("/addTransaction")
 	public String AddTransaction(Transaction tran, Errors errors, Model model) {
-		if(null != errors && errors.getErrorCount() > 0) return "formTransaction";
-		
+		//if(null != errors && errors.getErrorCount() > 0) return "formTransaction";
+		Date currentDateTime = new Date();
+		tran.setTransactionDate(currentDateTime);
 		transactionRepo.save(tran);
 		
 		return Index(model);
 	}
 	@PostMapping("/addAccount")
 	public String AddAccount(Account acc, Errors errors, Model model) {
- 		if(null != errors && errors.getErrorCount() > 0) return "formTransaction";
-
+ 		//if(null != errors && errors.getErrorCount() > 0) return "formAccount";
+		Date currentDateTime = new Date();
+		acc.setAccountDate(currentDateTime);
 		accountRepo.save(acc);
-		return Index(model);
+		return "index.html";
 	}
 	
 	/*

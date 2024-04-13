@@ -12,21 +12,24 @@
 		</div>
 		
 		<form action="#" th:object="${account}" th:action="@{/addAccount}" method="post">
-			<input type="number" th:field="*{accountId}" hidden />
-			<input type="number" th:field="*{accountBalance" hidden />
-			<input type="date" th:field="*{accountDate}" hidden />
+			<input type="number" th:field="*{accountId}" />
+			<input type="number" th:field="*{accountBalance}" />
+			<input type="date" th:field="*{accountDate}" />
 			<div class="mb-3">
 				<label for="accountName" class="form-label">Name</label>
-    			<input type="text" class="form-control" id="accountName" th:field="*{accountName}" />
+    			<input type="text" class="form-control" id="accountName" th:field="*{accountName}" required />
     			<span class="text-danger" th:if="${#fields.hasErrors('accountName')}" th:errors="*{accountName}"></span>
 			</div>
 			<div class="mb-3">
 				<label for="accountType" class="form-label">Type</label>
-    			<input type="text" class="form-control" id="accountType" th:field="*{accountType}" />
+    			<select class="form-select" id="accountType" th:field="*{accountType}">
+    				<option value="checking">Checking</option>
+    				<option value="savings">Savings</option>
+    			</select>
     			<span class="text-danger" th:if="${#fields.hasErrors('accountType')}" th:errors="*{accountType}"></span>
 			</div>
 			
-			<button type="submit" class="btn btn-primary">Create</button>
+			<button type="submit" class="btn btn-primary btn-lg">Create</button>
 			<a role="button" href="home" class="btn btn-secondary btn-lg">Cancel</a>
 		</form>
 	</main>
