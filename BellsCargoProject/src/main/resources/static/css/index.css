@@ -1,0 +1,16 @@
+.main-menu {
+	max-height: 100vh;
+}
+
+.menu {
+	height: 60vh;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+}
+
+.menu > .list-group-item {
+	font-size: 2em;
+	align-items: baseline;
+	border: 3px solid black;
+}
