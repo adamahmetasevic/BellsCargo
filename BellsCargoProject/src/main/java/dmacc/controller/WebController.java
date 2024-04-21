@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 /**
@@ -40,7 +41,7 @@ public class WebController {
 //			return AccountForm(model);
 //		}
 		
-		model.addAttribute("todos", accountRepo.findAll());
+		model.addAttribute("accounts", accountRepo.findAll());
 		
 		return "account";
 	}
@@ -48,6 +49,16 @@ public class WebController {
 	@GetMapping("/addAcc")
 	public String AccountForm(Model model) {
 		Account acc = new Account();
+		model.addAttribute("action", "Create Account");
+		model.addAttribute("account", acc);
+		
+		return "formAccount";
+	}
+	@GetMapping("/editAcc/{id}")
+	public String EditAccount(@PathVariable("id") int id, Model model) {
+		Account acc = accountRepo.findById(id).orElse(null);
+		
+		model.addAttribute("action", "Edit Account");
 		model.addAttribute("account", acc);
 		
 		return "formAccount";
@@ -59,7 +70,7 @@ public class WebController {
 //			return Index(model);
 //		}
 		
-		model.addAttribute("transactons", transactionRepo.findAll());
+		model.addAttribute("transactions", transactionRepo.findAll());
 		return "transaction";
 	}
 	
@@ -69,7 +80,7 @@ public class WebController {
 		trans.setTransactionType("withdraw");
 		model.addAttribute("title", "Deposit");
 		model.addAttribute("transaction", trans);
-		//model.addAttribute("accounts",
+		model.addAttribute("accounts", accountRepo.findAll());
 		return "formTransaction";
 	}
 	
@@ -80,6 +91,7 @@ public class WebController {
 		trans.setTransactionType("deposit");
 		model.addAttribute("title", "Deposit");
 		model.addAttribute("transaction", trans);
+		model.addAttribute("accounts", accountRepo.findAll());
 		return "formTransaction";
 	}
 	

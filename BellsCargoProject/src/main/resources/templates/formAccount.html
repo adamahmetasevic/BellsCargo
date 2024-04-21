@@ -8,13 +8,13 @@
 <body>
 	<main class="container mt-5">
 		<div class="text-center">
-			<h1 class="display-1">New Account</h1>
+			<h1 class="display-1" th:text="${action}"></h1>
 		</div>
 		
 		<form action="#" th:object="${account}" th:action="@{/addAccount}" method="post">
-			<input type="number" th:field="*{accountId}" />
-			<input type="number" th:field="*{accountBalance}" />
-			<input type="date" th:field="*{accountDate}" />
+			<input type="number" th:field="*{accountId}" hidden/>
+			<input type="number" th:field="*{accountBalance}" hidden/>
+			<input type="date" th:field="*{accountDate}" hidden/>
 			<div class="mb-3">
 				<label for="accountName" class="form-label">Name</label>
     			<input type="text" class="form-control" id="accountName" th:field="*{accountName}" required />
@@ -30,7 +30,7 @@
 			</div>
 			
 			<button type="submit" class="btn btn-primary btn-lg">Create</button>
-			<a role="button" href="home" class="btn btn-secondary btn-lg">Cancel</a>
+			<a role="button" href="/home" class="btn btn-secondary btn-lg">Cancel</a>
 		</form>
 	</main>
 	

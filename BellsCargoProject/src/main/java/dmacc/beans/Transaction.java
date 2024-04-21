@@ -17,7 +17,6 @@ public class Transaction {
     private String transactionType;
     private double transactionAmount;
     private Date transactionDate;
-//    private int accountId;
     
     
     @ManyToOne
@@ -66,12 +65,11 @@ public class Transaction {
     public void setTransactionDate(Date transactionDate) {
         this.transactionDate = transactionDate;
     }
-
-//    public int getAccountId() {
-//        return accountId;
-//    }
-//
-//    public void setAccountId(int accountId) {
-//        this.accountId = accountId;
-//    }
+    
+    public Account getAccount() {
+    	return this.account;
+    }
+    public void setAccount(Account acc) {
+    	this.account = acc;
+    }
 }
