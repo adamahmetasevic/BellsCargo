@@ -1,11 +1,16 @@
 package dmacc.controller;
 
 import dmacc.beans.Account;
+import dmacc.beans.Budget;
+import dmacc.beans.BudgetItem;
 import dmacc.beans.Transaction;
 import dmacc.repositories.AccountsRepository;
+import dmacc.repositories.BudgetItemRepository;
+import dmacc.repositories.BudgetRepository;
 import dmacc.repositories.TransactionRepository;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +18,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * @author Halmar Arteaga - harteagabran
@@ -28,6 +34,11 @@ public class WebController {
 	private AccountsRepository accountRepo;
 	@Autowired
 	private TransactionRepository transactionRepo;
+	@Autowired
+	private BudgetRepository budgetRepo;
+	@Autowired
+	private BudgetItemRepository budgetItemRepo;
+	
 	
 	@GetMapping({"/", "/home"})
 	public String Index(Model model) {
@@ -40,7 +51,7 @@ public class WebController {
 //			return AccountForm(model);
 //		}
 		
-		model.addAttribute("todos", accountRepo.findAll());
+		model.addAttribute("accounts", accountRepo.findAll());
 		
 		return "account";
 	}
@@ -101,6 +112,73 @@ public class WebController {
 		return "index.html";
 	}
 	
+	@GetMapping("/budgetList")
+	public String Budgets(Model model) {
+		if(budgetRepo.findAll().isEmpty()) {
+		return NoBudgets(model);
+	}
+	
+	model.addAttribute("budgetItems", budgetRepo.findAll());
+	
+	return "budgetList";
+	}
+	
+	@GetMapping("/newBudget/{id}")
+	public String NewBudget(@PathVariable("id") int id, Model model) {
+		Budget b = budgetRepo.getReferenceById(id);
+		model.addAttribute("budget", b);
+		return "newBudget";
+	}
+	
+	@PostMapping("/newBudget")
+	public String newBudget(@RequestParam("budgetId") int budgetId, BudgetItem bi, Model model) {
+		Budget b = budgetRepo.getReferenceById(budgetId);
+		
+		if(b == null) {
+			return viewBudget(b.getId(), model);
+		}
+		
+		
+		bi.setBudget(b);
+		b.setBudgetItems(bi);
+		
+		model.addAttribute("budget", b);
+		
+		budgetRepo.save(b);
+		budgetItemRepo.save(bi);
+		
+		return NewBudget(b.getId(), model);
+	}
+
+	@GetMapping("/noBudgets")
+	public String NoBudgets(Model model) {
+		return "noBudgets";
+	}
+	
+	@GetMapping("/createBudget")
+	public String createBudget(Model model) {
+		
+		return "createBudget";
+	}
+	
+	@PostMapping("/createBudget")
+	public String AddAccount(Budget b, Model model) {
+		budgetRepo.save(b);
+		return "createBudget";
+	}
+	
+	@GetMapping("/budget/{id}")
+	public String viewBudget(@PathVariable("id") int id, Model model) {
+		Budget b = budgetRepo.getReferenceById(id);
+		if(b == null) {
+			return NoBudgets(model);
+		}
+		
+		model.addAttribute("budget", b);
+		
+		return "budget";
+	}
+	
 	/*
 	 @GetMapping("/editAccount")
 	 @GetMapping("/deleteAccount")
@@ -108,5 +186,6 @@ public class WebController {
 	 @PostMapping("/login")
 	 @GetMapping("/register")
 	 @PostMapping("/register")
+	 @GetMapping("/budget")
 	*/
 }

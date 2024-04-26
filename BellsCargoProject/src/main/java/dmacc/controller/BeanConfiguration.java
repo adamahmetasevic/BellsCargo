@@ -4,6 +4,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import dmacc.beans.Account;
+import dmacc.beans.Budget;
+import dmacc.beans.BudgetItem;
 import dmacc.beans.Transaction;
 import dmacc.beans.User;
 
@@ -26,6 +28,20 @@ public class BeanConfiguration {
 	@Bean
 	public User user() {
 		User bean = new User();
+		
+		return bean;
+	}
+	
+	@Bean
+	public Budget budget() {
+		Budget bean = new Budget();
+		
+		return bean;
+	}
+	
+	@Bean
+	public BudgetItem budgetItem() {
+		BudgetItem bean = new BudgetItem();
 		
 		return bean;
 	}
