@@ -45,7 +45,7 @@ public class WebController {
 	
 	@GetMapping({"/", "/home"})
 	public String Index(Model model) {
-		return "index.html";
+		return "index";
 	}
 	
 	@GetMapping("/viewAccounts")
@@ -123,7 +123,7 @@ public class WebController {
 		Date currentDateTime = new Date();
 		acc.setAccountDate(currentDateTime);
 		accountRepo.save(acc);
-		return "index.html";
+		return "index";
 	}
 	
 	@GetMapping("/budgetList")
