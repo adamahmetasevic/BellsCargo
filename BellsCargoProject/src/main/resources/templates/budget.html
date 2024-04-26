@@ -1,0 +1,47 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Budget Details</title>
+    
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-4">
+        <h1>Budget Details</h1>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Budget Information</h5>
+                <p><strong>Budget Name:</strong> <span th:text="${budget.budgetName}"></span></p>
+                <p><strong>Budget Total:</strong> <span th:text="${budget.budgetTotal}"></span></p>
+            </div>
+        </div>
+
+        <div class="mt-4">
+            <h5>Budget Items</h5>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Category</th>
+                        <th>Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="item : ${budget.budgetItems}">
+                        <td th:text="${item.item}"></td>
+                        <td th:text="${item.category}"></td>
+                        <td th:text="${item.budgetAmount}"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <a class="btn btn-primary" th:href="@{'/newBudget/' + ${budget.id}}">Add new item</a>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
