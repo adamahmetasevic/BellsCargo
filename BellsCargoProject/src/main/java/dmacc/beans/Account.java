@@ -73,8 +73,12 @@ public class Account {
         return accountBalance;
     }
 
-    public void setAccountBalance(double accountBalance) {
-        this.accountBalance = accountBalance;
+    public void setAccountBalance(double tran, String trantype) {
+        if(trantype.equals("deposit")) {
+        	this.accountBalance += tran;
+        } else {
+        	this.accountBalance -= tran;
+        }
     }
 
     public Date getAccountDate() {
