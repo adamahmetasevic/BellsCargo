@@ -58,7 +58,7 @@
 							<td th:text="${tran.transactionType}"></td>
 							<td th:text="${tran.transactionAmount}"></td>
 							<td th:text="${tran.transactionDate}"></td>
-							<td th:text="${tran.account.getAccountName()}"></td>
+							<td th:text="${tran.getAccount().getAccountName()}"></td>
 						</tr>
 					</th:block>
 				</tbody>

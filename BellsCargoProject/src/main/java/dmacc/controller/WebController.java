@@ -113,6 +113,7 @@ public class WebController {
 		//if(null != errors && errors.getErrorCount() > 0) return "formTransaction";
 		Date currentDateTime = new Date();
 		tran.setTransactionDate(currentDateTime);
+		tran.getAccount().setAccountBalance(tran.getTransactionAmount(), tran.getTransactionType());
 		transactionRepo.save(tran);
 		
 		return Index(model);
