@@ -45,7 +45,7 @@ public class WebController {
 	
 	@GetMapping({"/", "/home"})
 	public String Index(Model model) {
-		return "index.html";
+		return "index";
 	}
 	
 	@GetMapping("/viewAccounts")
