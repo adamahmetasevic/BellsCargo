@@ -194,6 +194,10 @@ public class WebController {
 		return "budget";
 	}
 	
+	@GetMapping("/login")
+    public String loginPage() {
+        return "login"; 
+    }
 	/*
 	 @GetMapping("/editAccount")
 	 @GetMapping("/deleteAccount")

@@ -36,21 +36,18 @@
 			<h1 class="display-1">Login</h1>
 		</div>
 		
-		<form action="#" th:object="${user}" th:action="@{/login}" method="post">
-			<input type="number" th:field="*{userId}" hidden />
+		<form action="/login" method="post">
 			<div class="mb-3">
 				<label for="username" class="form-label">Username</label>
-    			<input type="text" class="form-control" id="username" th:field="*{username}" />
-    			<span class="text-danger" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></span>
+    			<input type="text" class="form-control" id="username" name="username" />
 			</div>
 			<div class="mb-3">
 				<label for="password" class="form-label">Password</label>
-    			<input type="password" class="form-control" id="password" th:field="*{password}" />
-    			<span class="text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
+    			<input type="password" class="form-control" id="password" name="password" />
 			</div>
 			
 			<div class="mb-3">
-				<input type="checkbox" class="btn-check" id="rememberMe" />
+				<input type="checkbox" class="btn-check" id="rememberMe" name="remember-me" />
 				<label class="btn btn-outline-primary" for="rememberMe">Remember Me</label>
 			</div>
 			
