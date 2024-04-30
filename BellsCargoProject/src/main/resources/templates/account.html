@@ -37,7 +37,7 @@
 <!-- 		<!-- If Empty  -->
 		<th:block th:if="${#lists.isEmpty(accounts)}">
 			<p class="alert alert-info">No Accounts Found</p>
-			<a href="addAcc" class="btn btn-light border border-dark" role="button">Add Account</a>
+			<a id="add-acc" href="addAcc" class="btn btn-light border border-dark" role="button">Add Account</a>
 		</th:block>
 		
 		<th:block th:if="${not #lists.isEmpty(accounts)}">
