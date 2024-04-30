@@ -1,11 +1,13 @@
 package dmacc.config;
 
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
@@ -17,20 +19,15 @@ import dmacc.beans.UserDetailsServiceImplementation;
 @EnableWebSecurity
 public class SecurityConfig {
 
+	
+    private JwtAuthEntryPoint authEntryPoint;
+
     private final UserDetailsServiceImplementation userDetailsService;
 
     public SecurityConfig(UserDetailsServiceImplementation userDetailsService) {
         this.userDetailsService = userDetailsService;
-    }
+        this.authEntryPoint = authEntryPoint;
 
-    @Bean
-    public PasswordEncoder nullPasswordEncoder() {
-        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
-    }
-
-    @Bean
-    public AuthenticationSuccessHandler myAuthenticationSuccessHandler(){
-        return new SimpleUrlAuthenticationSuccessHandler("/home");
     }
     
     @Bean
@@ -38,7 +35,8 @@ public class SecurityConfig {
         http
             .authorizeHttpRequests(authorize -> 
                 authorize
-                .requestMatchers("/login", "/css/**").permitAll() 
+                .requestMatchers("/login", "/css/**", "/register").permitAll()
+                .requestMatchers("/register","/css/**" ).permitAll() // Allow access to /register
                 .anyRequest().authenticated()
             )
             .formLogin(formLogin ->
@@ -53,8 +51,24 @@ public class SecurityConfig {
         return http.build();
     }
 
-    protected void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService)
-            .passwordEncoder(nullPasswordEncoder());
+    @Bean
+    public AuthenticationManager authenticationManager(
+            AuthenticationConfiguration authenticationConfiguration) throws Exception {
+        return authenticationConfiguration.getAuthenticationManager();
+    }
+    @Bean
+    public AuthenticationSuccessHandler successHandler() {
+        SimpleUrlAuthenticationSuccessHandler handler = new SimpleUrlAuthenticationSuccessHandler();
+        handler.setDefaultTargetUrl("/index"); 
+        return handler;
+    }
+    @Bean
+    PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public  JWTAuthenticationFilter jwtAuthenticationFilter() {
+        return new JWTAuthenticationFilter();
     }
 }

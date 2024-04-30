@@ -26,7 +26,7 @@ public class Budget {
 	
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private User user;
+    private UserEntity user;
     
     @OneToMany(mappedBy = "budget")
 	private List<BudgetItem> budgetItems;

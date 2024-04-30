@@ -1,9 +1,6 @@
 package dmacc.controller;
 
-import dmacc.beans.Account;
-import dmacc.beans.Budget;
-import dmacc.beans.BudgetItem;
-import dmacc.beans.Transaction;
+import dmacc.beans.*;
 import dmacc.repositories.AccountsRepository;
 import dmacc.repositories.BudgetItemRepository;
 import dmacc.repositories.BudgetRepository;
@@ -198,13 +195,17 @@ public class WebController {
     public String loginPage() {
         return "login"; 
     }
+	
+	
+	@GetMapping("/register")
+	public String showRegistrationForm(Model model) {
+	    model.addAttribute("user", new UserEntity());
+	    return "register";
+	}
+
 	/*
 	 @GetMapping("/editAccount")
 	 @GetMapping("/deleteAccount")
-	 @GetMapping("/login")
-	 @PostMapping("/login")
-	 @GetMapping("/register")
-	 @PostMapping("/register")
 	 @GetMapping("/budget")
 	*/
 }

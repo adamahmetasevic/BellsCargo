@@ -27,7 +27,7 @@ public class Account {
     
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private User user;
+    private UserEntity user;
     
     @OneToMany(mappedBy = "account")
     private List<Transaction> transactions;

@@ -7,7 +7,7 @@ import dmacc.beans.Account;
 import dmacc.beans.Budget;
 import dmacc.beans.BudgetItem;
 import dmacc.beans.Transaction;
-import dmacc.beans.User;
+import dmacc.beans.UserEntity;
 
 @Configuration
 public class BeanConfiguration {
@@ -26,8 +26,8 @@ public class BeanConfiguration {
 	}
 	
 	@Bean
-	public User user() {
-		User bean = new User();
+	public UserEntity user() {
+		UserEntity bean = new UserEntity();
 		
 		return bean;
 	}
